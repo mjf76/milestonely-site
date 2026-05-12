@@ -1,0 +1,7 @@
+# robots.txt per milestonely.app
+# Permettiamo a tutti i bot di indicizzare tutto il sito.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://milestonely.app/sitemap.xml
