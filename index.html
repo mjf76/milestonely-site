@@ -1,87 +1,614 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>Milestonely — Coming Soon</title>
-<meta name="description" content="Milestonely sta arrivando. Iscriviti per essere avvisato al lancio.">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body {
-    height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem 1.5rem;
-  }
-  .logo {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    margin-bottom: 1rem;
-  }
-  .tag {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    font-weight: 400;
-    opacity: 0.92;
-    max-width: 38rem;
-    line-height: 1.5;
-    margin-bottom: 2.5rem;
-  }
-  .badge {
-    display: inline-block;
-    padding: 0.45rem 1rem;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-  .contact {
-    margin-top: 3rem;
-    font-size: 0.9rem;
-    opacity: 0.75;
-  }
-  .contact a {
-    color: #fff;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255,255,255,0.4);
-    padding-bottom: 1px;
-  }
-  .contact a:hover { opacity: 1; border-bottom-color: #fff; }
-  .footer {
-    position: absolute;
-    bottom: 1.5rem;
-    font-size: 0.75rem;
-    opacity: 0.55;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Milestonely — Ogni momento ha una sua festa</title>
+  <meta name="description" content="Calcola le tue prossime cifre tonde: 1000 giorni, 500 settimane, 10.000 ore. Prova la demo e scarica l'app." />
+  <link rel="icon" type="image/png" href="img/favicon.png" />
+  <link rel="apple-touch-icon" href="img/icon.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Milestonely — Ogni momento ha una sua festa" />
+  <meta property="og:description" content="Calcola le prossime cifre tonde delle tue date. Prova subito la demo." />
+  <meta property="og:image" content="img/banner_it.png" />
+  <meta property="og:url" content="https://milestonely.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- ===== Google AdSense =====
+       Quando AdSense sarà approvato per il dominio milestonely.app:
+       1. Sostituisci ca-pub-XXXXXXXXXXXXXX con il tuo Publisher ID reale.
+       2. Decommenta il blocco script qui sotto.
+       3. Negli ad-slot (id="ad-top" / "ad-bottom") sostituisci il testo "Annuncio"
+          con il blocco <ins class="adsbygoogle">... fornito da AdSense. -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  -->
+
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #F5F4FF;
+      color: #3C3489;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #534AB7; text-decoration: none; }
+
+    /* ===== Top bar ===== */
+    .appbar {
+      background: #7F77DD;
+      color: white;
+      padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(60,52,137,0.18);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .appbar .brand { display: flex; align-items: center; gap: 12px; }
+    .appbar .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    .appbar .brand h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    .appbar .right { display: flex; align-items: center; gap: 8px; }
+    .lang-btn {
+      background: transparent; color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.35);
+      padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px;
+    }
+    .lang-btn.active { background: white; color: #534AB7; border-color: white; }
+
+    /* ===== Container ===== */
+    .wrap { max-width: 560px; margin: 0 auto; padding: 20px 16px 100px; }
+    .section-title { font-size: 18px; font-weight: 800; color: #3C3489; margin: 20px 4px 12px; }
+
+    /* ===== Event card ===== */
+    .event-card {
+      background: white;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 14px;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      border: 2px solid transparent;
+    }
+    .event-card:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(127,119,221,0.18); }
+    .event-card.selected { border-color: #7F77DD; box-shadow: 0 6px 20px rgba(127,119,221,0.25); }
+    .event-card .emoji { font-size: 30px; flex-shrink: 0; width: 44px; text-align: center; }
+    .event-card .info { flex: 1; min-width: 0; }
+    .event-card .info .name { font-weight: 700; color: #3C3489; font-size: 16px; }
+    .event-card .info .date { color: #7F77DD; font-size: 13px; margin-top: 2px; }
+    .event-card .actions { display: flex; gap: 4px; }
+    .icon-btn {
+      background: transparent; border: none; cursor: pointer;
+      padding: 6px; border-radius: 8px; color: #7F77DD;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background: #EEEDFE; }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    /* ===== Premium banner ===== */
+    .premium-banner {
+      background: #EEEDFE; border: 1px solid #CECBF6;
+      padding: 14px; border-radius: 12px;
+      text-align: center; color: #534AB7;
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .premium-banner .star { color: #FFD700; margin-right: 6px; }
+
+    /* ===== Add event form ===== */
+    .add-block {
+      background: white; border-radius: 14px; padding: 16px;
+      box-shadow: 0 2px 12px rgba(127,119,221,0.10);
+      margin-bottom: 20px;
+    }
+    .add-block h3 { margin: 0 0 12px; font-size: 16px; color: #3C3489; }
+    .add-block input, .add-block button {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1.5px solid #CECBF6; font-size: 15px;
+      background: #F5F4FF; color: #3C3489;
+      margin-bottom: 10px; font-family: inherit;
+    }
+    .add-block input:focus { outline: none; border-color: #7F77DD; background: white; }
+    .add-block button {
+      background: #7F77DD; color: white; border: none;
+      font-weight: 700; cursor: pointer; transition: background .15s ease;
+    }
+    .add-block button:hover:not(:disabled) { background: #6960C9; }
+    .add-block button:disabled { background: #CECBF6; cursor: not-allowed; }
+    .limit-msg {
+      color: #993556; font-size: 13px; text-align: center;
+      background: #FBEAF0; padding: 10px; border-radius: 10px;
+      border: 1px solid rgba(212,83,126,0.3);
+      margin-top: 8px;
+    }
+
+    /* ===== Milestones list ===== */
+    .milestones { margin-top: 16px; }
+    .milestone-card {
+      background: white; border-left: 4px solid #7F77DD;
+      padding: 12px 16px; border-radius: 10px;
+      margin-bottom: 8px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 1px 4px rgba(127,119,221,0.10);
+    }
+    .milestone-card .ms-info { flex: 1; }
+    .milestone-card .ms-label { font-weight: 700; font-size: 15px; }
+    .milestone-card .ms-date { color: #7F77DD; font-size: 13px; margin-top: 2px; }
+    .milestone-card .ms-when {
+      background: #EEEDFE; color: #534AB7;
+      padding: 5px 10px; border-radius: 16px;
+      font-size: 12px; font-weight: 700; white-space: nowrap;
+    }
+    .empty-state {
+      text-align: center; padding: 24px 16px; color: #7F77DD;
+      font-style: italic; font-size: 14px;
+    }
+
+    /* Colori per unità */
+    .u-anniversario { border-left-color: #D4537E; } .u-anniversario .ms-label { color: #D4537E; }
+    .u-mesi         { border-left-color: #534AB7; } .u-mesi .ms-label { color: #534AB7; }
+    .u-lune         { border-left-color: #5B8DB8; } .u-lune .ms-label { color: #5B8DB8; }
+    .u-settimane    { border-left-color: #1D9E75; } .u-settimane .ms-label { color: #1D9E75; }
+    .u-giorni       { border-left-color: #7F77DD; } .u-giorni .ms-label { color: #7F77DD; }
+    .u-ore          { border-left-color: #D85A30; } .u-ore .ms-label { color: #D85A30; }
+    .u-minuti       { border-left-color: #BA7517; } .u-minuti .ms-label { color: #BA7517; }
+    .u-secondi      { border-left-color: #639922; } .u-secondi .ms-label { color: #639922; }
+
+    /* ===== Download CTA ===== */
+    .download-cta {
+      position: fixed; left: 16px; right: 16px; bottom: 16px;
+      max-width: 528px; margin: 0 auto;
+      background: linear-gradient(135deg, #7F77DD, #534AB7);
+      color: white; padding: 16px 20px; border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(60,52,137,0.35);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      z-index: 20;
+    }
+    .download-cta .txt { flex: 1; min-width: 0; }
+    .download-cta strong { display: block; font-size: 16px; margin-bottom: 2px; }
+    .download-cta small { color: #EEEDFE; font-size: 12px; display: block; }
+    .download-cta a {
+      background: white; color: #534AB7; padding: 10px 16px;
+      border-radius: 10px; font-weight: 700; text-decoration: none;
+      white-space: nowrap; font-size: 14px;
+    }
+    .download-cta a:hover { background: #FFD700; color: #3C3489; }
+
+    /* ===== Detail dialog ===== */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(60,52,137,0.55);
+      z-index: 30; display: none; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .overlay.open { display: flex; }
+    .dialog {
+      background: white; border-radius: 20px; max-width: 460px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      padding: 24px; box-shadow: 0 24px 48px rgba(0,0,0,0.35);
+    }
+    .dialog h2 { margin: 0 0 4px; color: #3C3489; font-size: 22px; }
+    .dialog .meta { color: #7F77DD; font-size: 14px; margin-bottom: 16px; }
+    .dialog .close-row { display: flex; justify-content: flex-end; margin-top: 16px; }
+    .dialog button {
+      background: #7F77DD; color: white; border: none;
+      padding: 10px 20px; border-radius: 10px;
+      font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center; color: #7F77DD; font-size: 12px;
+      padding: 24px 16px 100px;
+    }
+    footer a { color: #7F77DD; margin: 0 8px; }
+
+    /* ===== Ad slots ===== */
+    .ad-slot {
+      background: #EEEDFE;
+      border: 1px dashed #CECBF6;
+      border-radius: 10px;
+      min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      color: #7F77DD; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .ad-slot.inline { min-height: 60px; }
+    .ad-slot ins { display: block; width: 100%; }
+    .ad-label { opacity: 0.6; font-size: 10px; position: absolute; }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <span class="badge">Coming soon</span>
-    <h1 class="logo">Milestonely</h1>
-    <p class="tag">
-      Stiamo costruendo qualcosa di speciale.<br>
-      Il lancio è previsto a breve.
-    </p>
-    <p class="contact">
-      Info e contatti: <a href="mailto:milestonely.app@gmail.com">milestonely.app@gmail.com</a>
-    </p>
-    <p class="footer">© 2026 Milestonely</p>
+
+<header class="appbar">
+  <div class="brand">
+    <img src="img/icon.png" alt="Milestonely" />
+    <h1>Milestonely</h1>
   </div>
+  <div class="right">
+    <button class="lang-btn active" data-lang="it" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== AD SLOT TOP ===== -->
+  <!-- Quando AdSense sarà approvato, sostituisci il contenuto di .ad-slot con:
+       <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+            data-ad-slot="XXXXXXXXXX"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+  <div class="ad-slot" id="ad-top" data-i18n="adLabel">Annuncio</div>
+
+  <h2 class="section-title" data-i18n="yourEvents">I tuoi eventi (demo)</h2>
+
+  <div id="events-list"></div>
+
+  <div class="premium-banner" id="limit-banner" style="display:none;">
+    <span class="star">⭐</span>
+    <span data-i18n="limitMsg">Demo limitata a 2 eventi e ricreata ad ogni refresh. Scarica l'app per tenere le tue date sempre con te.</span>
+  </div>
+
+  <div class="add-block">
+    <h3 data-i18n="addTitle">Aggiungi un evento</h3>
+    <input type="text" id="ev-name" placeholder="Es. Maria e Luca, Sofia, Primo lavoro..." data-i18n-placeholder="placeholderName" />
+    <input type="date" id="ev-date" />
+    <button id="add-btn" onclick="addEvent()" data-i18n="addBtn">Aggiungi</button>
+    <div id="add-error" class="limit-msg" style="display:none;"></div>
+  </div>
+
+  <h2 class="section-title" data-i18n="upcoming">Prossime ricorrenze (3 mesi)</h2>
+  <div id="milestones-list">
+    <div class="empty-state" data-i18n="emptyState">Aggiungi un evento per vedere le sue cifre tonde.</div>
+  </div>
+
+  <!-- ===== AD SLOT BOTTOM ===== -->
+  <div class="ad-slot" id="ad-bottom" data-i18n="adLabel">Annuncio</div>
+
+  <footer>
+    <p>
+      <a href="https://mjf76.github.io/milestonely-privacy/" target="_blank" rel="noopener" data-i18n="privacyLink">Privacy Policy</a>
+      ·
+      <a href="mailto:milestonely.app@gmail.com">milestonely.app@gmail.com</a>
+    </p>
+    <p>© 2026 Milestonely</p>
+  </footer>
+</main>
+
+<!-- CTA fissa in basso -->
+<div class="download-cta">
+  <div class="txt">
+    <strong data-i18n="ctaTitle">Tieni con te le tue date</strong>
+    <small data-i18n="ctaSub">App gratuita su Android. 2 € una tantum per tutto sbloccato.</small>
+  </div>
+  <a href="#" id="play-link" onclick="event.preventDefault(); alert(getText('ctaSoon'));" data-i18n="ctaBtn">Scarica</a>
+</div>
+
+<!-- Dialog dettaglio evento -->
+<div class="overlay" id="detail-overlay" onclick="if(event.target===this)closeDetail()">
+  <div class="dialog">
+    <h2 id="d-name"></h2>
+    <div class="meta" id="d-date"></div>
+    <div id="d-milestones" class="milestones"></div>
+    <div class="close-row">
+      <button onclick="closeDetail()" data-i18n="closeBtn">Chiudi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== i18n =====
+  const I18N = {
+    it: {
+      yourEvents: 'I tuoi eventi (demo)',
+      addTitle: 'Aggiungi un evento',
+      placeholderName: 'Es. Maria e Luca, Sofia, Primo lavoro...',
+      addBtn: 'Aggiungi',
+      upcoming: 'Prossime ricorrenze (3 mesi)',
+      emptyState: 'Aggiungi un evento per vedere le sue cifre tonde.',
+      limitMsg: 'Demo limitata a 2 eventi e ricreata ad ogni refresh. Scarica l\'app per tenere le tue date sempre con te.',
+      ctaTitle: 'Tieni con te le tue date',
+      ctaSub: 'App gratuita su Android. 2 € una tantum per tutto sbloccato.',
+      ctaBtn: 'Scarica',
+      ctaSoon: 'L\'app sta arrivando su Google Play! Torna presto.',
+      closeBtn: 'Chiudi',
+      privacyLink: 'Privacy Policy',
+      adLabel: 'Annuncio',
+      errLimit: 'Demo limitata a 2 eventi. Scarica l\'app per eventi illimitati.',
+      errFields: 'Inserisci un nome e una data.',
+      errDate: 'Scegli una data nel passato.',
+      manca: 'Manca',
+      tra: 'tra',
+      days: 'giorni', day: 'giorno',
+      weeks: 'settimane', week: 'settimana',
+      months: 'mesi', month: 'mese',
+      hours: 'ore', hour: 'ora',
+      minutes: 'min', minute: 'min',
+      seconds: 'sec', second: 'sec',
+      years: 'anni', year: 'anno',
+      moons: 'lune',
+      anniversario: '° anniversario',
+      meseSuf: ' mesi', luneSuf: ' lune', settSuf: ' settimane', giorniSuf: ' giorni',
+      oreSuf: ' ore', minSuf: ' minuti', secSuf: ' secondi',
+      passato: 'già passato',
+    },
+    en: {
+      yourEvents: 'Your events (demo)',
+      addTitle: 'Add an event',
+      placeholderName: 'E.g. Maria & Luca, Sofia, First job...',
+      addBtn: 'Add',
+      upcoming: 'Upcoming milestones (3 months)',
+      emptyState: 'Add an event to see its milestones.',
+      limitMsg: 'Demo limited to 2 events and reset on refresh. Download the app to keep your dates with you.',
+      ctaTitle: 'Keep your dates with you',
+      ctaSub: 'Free on Android. €2 one-time for everything unlocked.',
+      ctaBtn: 'Download',
+      ctaSoon: 'The app is coming soon on Google Play! Check back soon.',
+      closeBtn: 'Close',
+      privacyLink: 'Privacy Policy',
+      adLabel: 'Advertisement',
+      errLimit: 'Demo limited to 2 events. Download the app for unlimited.',
+      errFields: 'Enter a name and a date.',
+      errDate: 'Pick a date in the past.',
+      manca: 'In',
+      tra: 'in',
+      days: 'days', day: 'day',
+      weeks: 'weeks', week: 'week',
+      months: 'months', month: 'month',
+      hours: 'hours', hour: 'hour',
+      minutes: 'min', minute: 'min',
+      seconds: 'sec', second: 'sec',
+      years: 'years', year: 'year',
+      moons: 'moons',
+      anniversario: 'th anniversary',
+      meseSuf: ' months', luneSuf: ' moons', settSuf: ' weeks', giorniSuf: ' days',
+      oreSuf: ' hours', minSuf: ' minutes', secSuf: ' seconds',
+      passato: 'already passed',
+    }
+  };
+
+  let currentLang = (navigator.language || 'it').slice(0,2) === 'en' ? 'en' : 'it';
+  function t(key) { return I18N[currentLang][key] || key; }
+  function getText(key) { return t(key); }
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (I18N[lang][k]) el.textContent = I18N[lang][k];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const k = el.getAttribute('data-i18n-placeholder');
+      if (I18N[lang][k]) el.placeholder = I18N[lang][k];
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    render();
+  }
+
+  // ===== Modello eventi (in memoria, mai persistito) =====
+  const MAX_EVENTS = 2;
+  const events = [];   // {id, name, date (Date)}
+  let nextId = 1;
+  const EMOJIS = ['✨','🎂','🎉','💑','👶','🤝','🌟','🎈'];
+
+  // ===== Logica calcolo cifre tonde =====
+  const LUNAR_MS = 29.530589 * 24 * 3600 * 1000;
+  const INTERVALS = {
+    mesi:      { values: [100, 200, 500, 1000, 1500, 2000], step: 500 },
+    lune:      { values: [10, 20, 50, 100, 200, 500, 1000], step: null },
+    settimane: { values: [100, 200, 300, 400, 500, 1000], step: 500 },
+    giorni:    { values: [100, 200, 500, 1000, 1500, 2000], step: 1000 },
+    ore:       { values: [1000, 5000, 10000, 25000, 50000, 100000, 500000], step: 100000 },
+    minuti:    { values: [10000, 50000, 100000, 500000, 1000000, 5000000], step: 1000000 },
+    secondi:   { values: [100000, 1000000, 10000000, 100000000, 1000000000], step: 100000000 },
+  };
+
+  function addMonths(date, m) {
+    const d = new Date(date);
+    const day = d.getDate();
+    d.setMonth(d.getMonth() + m);
+    if (d.getDate() < day) d.setDate(0); // fine mese
+    return d;
+  }
+  function dateOf(start, unit, v) {
+    const ms = start.getTime();
+    switch(unit) {
+      case 'mesi': return addMonths(start, v);
+      case 'settimane': return new Date(ms + v * 7 * 86400000);
+      case 'giorni': return new Date(ms + v * 86400000);
+      case 'lune': return new Date(ms + v * LUNAR_MS);
+      case 'ore': return new Date(ms + v * 3600000);
+      case 'minuti': return new Date(ms + v * 60000);
+      case 'secondi': return new Date(ms + v * 1000);
+    }
+  }
+
+  function generateMilestones(event, monthsAhead = 3) {
+    const start = event.date;
+    const now = new Date();
+    const limit = new Date(now.getTime() + monthsAhead * 30 * 86400000);
+    const result = [];
+
+    // Anniversari (anni)
+    let year = 1;
+    while (true) {
+      const d = new Date(start);
+      d.setFullYear(d.getFullYear() + year);
+      if (d > limit) break;
+      if (d > now) result.push({ unit: 'anniversario', value: year, date: d, label: year + t('anniversario') });
+      year++;
+      if (year > 200) break;
+    }
+
+    for (const [unit, conf] of Object.entries(INTERVALS)) {
+      // valori espliciti
+      for (const v of conf.values) {
+        const d = dateOf(start, unit, v);
+        if (d > now && d < limit) {
+          result.push(milestone(unit, v, d));
+        }
+      }
+      // step continuativo
+      if (conf.step) {
+        let next = (conf.values[conf.values.length-1] || 0) + conf.step;
+        for (let i = 0; i < 1000; i++) {
+          const d = dateOf(start, unit, next);
+          if (d > limit) break;
+          if (d > now) result.push(milestone(unit, next, d));
+          next += conf.step;
+        }
+      }
+    }
+    result.sort((a,b) => a.date - b.date);
+    return result;
+  }
+
+  function milestone(unit, value, date) {
+    const formatted = value.toLocaleString(currentLang === 'it' ? 'it-IT' : 'en-US');
+    let suffix = '';
+    switch(unit) {
+      case 'mesi': suffix = t('meseSuf'); break;
+      case 'lune': suffix = t('luneSuf'); break;
+      case 'settimane': suffix = t('settSuf'); break;
+      case 'giorni': suffix = t('giorniSuf'); break;
+      case 'ore': suffix = t('oreSuf'); break;
+      case 'minuti': suffix = t('minSuf'); break;
+      case 'secondi': suffix = t('secSuf'); break;
+    }
+    return { unit, value, date, label: formatted + suffix };
+  }
+
+  function whenLabel(date) {
+    const diff = date - new Date();
+    if (diff < 0) return t('passato');
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor(diff / 3600000);
+    const months = Math.floor(days / 30);
+    if (months >= 1) return t('tra') + ' ' + months + (months===1 ? ' ' + t('month') : ' ' + t('months'));
+    if (days >= 1) return t('tra') + ' ' + days + (days===1 ? ' ' + t('day') : ' ' + t('days'));
+    return t('tra') + ' ' + hours + ' ' + (hours===1 ? t('hour') : t('hours'));
+  }
+
+  function fmtDate(d) {
+    const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+    return d.toLocaleDateString(currentLang === 'it' ? 'it-IT' : 'en-US', opts);
+  }
+
+  // ===== Aggiungi evento =====
+  function addEvent() {
+    const nameInput = document.getElementById('ev-name');
+    const dateInput = document.getElementById('ev-date');
+    const errEl = document.getElementById('add-error');
+    errEl.style.display = 'none';
+    const name = nameInput.value.trim();
+    const date = dateInput.value ? new Date(dateInput.value) : null;
+    if (!name || !date) { errEl.textContent = t('errFields'); errEl.style.display = 'block'; return; }
+    if (date >= new Date()) { errEl.textContent = t('errDate'); errEl.style.display = 'block'; return; }
+    if (events.length >= MAX_EVENTS) { errEl.textContent = t('errLimit'); errEl.style.display = 'block'; return; }
+    events.push({
+      id: nextId++,
+      name,
+      date,
+      emoji: EMOJIS[events.length % EMOJIS.length],
+    });
+    nameInput.value = '';
+    dateInput.value = '';
+    render();
+  }
+
+  function deleteEvent(id) {
+    const idx = events.findIndex(e => e.id === id);
+    if (idx >= 0) events.splice(idx, 1);
+    render();
+  }
+
+  function openDetail(id) {
+    const ev = events.find(e => e.id === id);
+    if (!ev) return;
+    document.getElementById('d-name').textContent = ev.emoji + '  ' + ev.name;
+    document.getElementById('d-date').textContent = fmtDate(ev.date);
+    const ms = generateMilestones(ev);
+    const wrap = document.getElementById('d-milestones');
+    wrap.innerHTML = ms.length === 0
+      ? '<div class="empty-state">' + t('emptyState') + '</div>'
+      : ms.map(m => `
+          <div class="milestone-card u-${m.unit}">
+            <div class="ms-info">
+              <div class="ms-label">${m.label}</div>
+              <div class="ms-date">${fmtDate(m.date)}</div>
+            </div>
+            <div class="ms-when">${whenLabel(m.date)}</div>
+          </div>`).join('');
+    document.getElementById('detail-overlay').classList.add('open');
+  }
+  function closeDetail() {
+    document.getElementById('detail-overlay').classList.remove('open');
+  }
+
+  // ===== Render =====
+  function render() {
+    // Lista eventi
+    const list = document.getElementById('events-list');
+    if (events.length === 0) {
+      list.innerHTML = '<div class="empty-state">' + t('emptyState') + '</div>';
+    } else {
+      list.innerHTML = events.map(ev => `
+        <div class="event-card" onclick="openDetail(${ev.id})">
+          <div class="emoji">${ev.emoji}</div>
+          <div class="info">
+            <div class="name">${ev.name}</div>
+            <div class="date">${fmtDate(ev.date)}</div>
+          </div>
+          <div class="actions">
+            <button class="icon-btn" onclick="event.stopPropagation(); deleteEvent(${ev.id});" title="Elimina">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+    // Banner limite
+    document.getElementById('limit-banner').style.display = events.length >= MAX_EVENTS ? 'block' : 'none';
+    document.getElementById('add-btn').disabled = events.length >= MAX_EVENTS;
+
+    // Ricorrenze aggregate prossimi 3 mesi
+    const all = [];
+    events.forEach(ev => {
+      const ms = generateMilestones(ev, 3);
+      ms.forEach(m => all.push({ ...m, eventName: ev.name, eventEmoji: ev.emoji }));
+    });
+    all.sort((a,b) => a.date - b.date);
+    const msList = document.getElementById('milestones-list');
+    if (all.length === 0) {
+      msList.innerHTML = '<div class="empty-state">' + t('emptyState') + '</div>';
+    } else {
+      msList.innerHTML = all.map(m => `
+        <div class="milestone-card u-${m.unit}">
+          <div class="ms-info">
+            <div class="ms-label">${m.eventEmoji} ${m.label}</div>
+            <div class="ms-date">${m.eventName} · ${fmtDate(m.date)}</div>
+          </div>
+          <div class="ms-when">${whenLabel(m.date)}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Init
+  setLang(currentLang);
+  render();
+</script>
+
 </body>
 </html>
