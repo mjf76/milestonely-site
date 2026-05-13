@@ -61,24 +61,49 @@
     .wrap { max-width: 560px; margin: 0 auto; padding: 20px 16px 100px; }
     .section-title { font-size: 18px; font-weight: 800; color: #3C3489; margin: 20px 4px 12px; }
 
-    /* ===== Event card ===== */
+    /* ===== Event chips (v1.2 — orizzontali scrollabili) ===== */
+    .events-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 8px;
+      margin-bottom: 4px;
+      scrollbar-width: thin;
+    }
+    .events-strip::-webkit-scrollbar { height: 6px; }
+    .events-strip::-webkit-scrollbar-thumb { background: #CECBF6; border-radius: 3px; }
     .event-card {
       background: white;
-      border-radius: 14px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      display: flex; align-items: center; gap: 14px;
+      border-radius: 20px;
+      padding: 8px 14px;
+      display: inline-flex; align-items: center; gap: 6px;
       cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-      border: 2px solid transparent;
+      transition: all .15s ease;
+      border: 1.5px solid #CECBF6;
+      flex-shrink: 0;
+      max-width: 180px;
+      white-space: nowrap;
     }
-    .event-card:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(127,119,221,0.18); }
-    .event-card.selected { border-color: #7F77DD; box-shadow: 0 6px 20px rgba(127,119,221,0.25); }
-    .event-card .emoji { font-size: 30px; flex-shrink: 0; width: 44px; text-align: center; }
-    .event-card .info { flex: 1; min-width: 0; }
-    .event-card .info .name { font-weight: 700; color: #3C3489; font-size: 16px; }
-    .event-card .info .date { color: #7F77DD; font-size: 13px; margin-top: 2px; }
-    .event-card .actions { display: flex; gap: 4px; }
+    .event-card:hover { border-color: #7F77DD; }
+    .event-card.selected {
+      border-color: #7F77DD; border-width: 1.6px;
+      background: #EEEDFE;
+      box-shadow: 0 4px 12px rgba(127,119,221,0.18);
+    }
+    .event-card .emoji { font-size: 16px; flex-shrink: 0; }
+    .event-card .info { display: flex; align-items: center; min-width: 0; }
+    .event-card .info .name {
+      font-weight: 600; color: #3C3489; font-size: 13px;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .event-card.selected .info .name { font-weight: 700; color: #7F77DD; }
+    .event-card .info .date { display: none; } /* nascondiamo la data sulla chip */
+    .event-card .actions {
+      display: flex; gap: 2px; margin-left: 4px;
+      padding-left: 4px; border-left: 1px solid #EEEDFE;
+    }
+    .event-card .actions .icon-btn { padding: 2px; }
+    .event-card .actions .icon-btn svg { width: 14px; height: 14px; }
     .icon-btn {
       background: transparent; border: none; cursor: pointer;
       padding: 6px; border-radius: 8px; color: #7F77DD;
@@ -248,9 +273,9 @@
   -->
   <div class="ad-slot" id="ad-top" data-i18n="adLabel">Annuncio</div>
 
-  <h2 class="section-title" data-i18n="yourEvents">I tuoi eventi (demo)</h2>
+  <h2 class="section-title" data-i18n="yourEvents">I tuoi eventi e gruppi (demo)</h2>
 
-  <div id="events-list"></div>
+  <div id="events-list" class="events-strip"></div>
 
   <div class="premium-banner" id="limit-banner" style="display:none;">
     <span class="star">⭐</span>
@@ -287,7 +312,7 @@
 <div class="download-cta">
   <div class="txt">
     <strong data-i18n="ctaTitle">Tieni con te le tue date</strong>
-    <small data-i18n="ctaSub">App gratuita su Android. 2 € una tantum per tutto sbloccato.</small>
+    <small data-i18n="ctaSub">App gratuita su Android. 1,49 € una tantum per tutto sbloccato.</small>
   </div>
   <a href="#" id="play-link" onclick="event.preventDefault(); alert(getText('ctaSoon'));" data-i18n="ctaBtn">Scarica</a>
 </div>
@@ -308,7 +333,7 @@
   // ===== i18n =====
   const I18N = {
     it: {
-      yourEvents: 'I tuoi eventi (demo)',
+      yourEvents: 'I tuoi eventi e gruppi (demo)',
       addTitle: 'Aggiungi un evento',
       placeholderName: 'Es. Maria e Luca, Sofia, Primo lavoro...',
       addBtn: 'Aggiungi',
@@ -316,7 +341,7 @@
       emptyState: 'Aggiungi un evento per vedere le sue cifre tonde.',
       limitMsg: 'Demo limitata a 2 eventi e ricreata ad ogni refresh. Scarica l\'app per tenere le tue date sempre con te.',
       ctaTitle: 'Tieni con te le tue date',
-      ctaSub: 'App gratuita su Android. 2 € una tantum per tutto sbloccato.',
+      ctaSub: 'App gratuita su Android. 1,49 € una tantum per tutto sbloccato.',
       ctaBtn: 'Scarica',
       ctaSoon: 'L\'app sta arrivando su Google Play! Torna presto.',
       closeBtn: 'Chiudi',
@@ -341,7 +366,7 @@
       passato: 'già passato',
     },
     en: {
-      yourEvents: 'Your events (demo)',
+      yourEvents: 'Your events and groups (demo)',
       addTitle: 'Add an event',
       placeholderName: 'E.g. Maria & Luca, Sofia, First job...',
       addBtn: 'Add',
@@ -349,7 +374,7 @@
       emptyState: 'Add an event to see its milestones.',
       limitMsg: 'Demo limited to 2 events and reset on refresh. Download the app to keep your dates with you.',
       ctaTitle: 'Keep your dates with you',
-      ctaSub: 'Free on Android. €2 one-time for everything unlocked.',
+      ctaSub: 'Free on Android. €1.49 one-time for everything unlocked.',
       ctaBtn: 'Download',
       ctaSoon: 'The app is coming soon on Google Play! Check back soon.',
       closeBtn: 'Close',
@@ -558,17 +583,19 @@
 
   // ===== Render =====
   function render() {
-    // Lista eventi
+    // Lista eventi (chip orizzontali v1.2)
     const list = document.getElementById('events-list');
     if (events.length === 0) {
+      // Empty state fuori dalla strip per evitare layout flex strani
+      list.classList.remove('events-strip');
       list.innerHTML = '<div class="empty-state">' + t('emptyState') + '</div>';
     } else {
+      list.classList.add('events-strip');
       list.innerHTML = events.map(ev => `
         <div class="event-card" onclick="openDetail(${ev.id})">
-          <div class="emoji">${ev.emoji}</div>
+          <span class="emoji">${ev.emoji}</span>
           <div class="info">
             <div class="name">${ev.name}</div>
-            <div class="date">${fmtDate(ev.date)}</div>
           </div>
           <div class="actions">
             <button class="icon-btn" onclick="event.stopPropagation(); deleteEvent(${ev.id});" title="Elimina">
